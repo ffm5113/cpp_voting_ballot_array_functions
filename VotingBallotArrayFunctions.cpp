@@ -12,7 +12,7 @@ using namespace std;
 const string TITLE = "Voting Ballot Array Functions Program";
 const string AUTHOR_LINE = "By Forrest Moulin";
 const string DIRECTORY = "C:\\Users\\Username\\Path\\To\\Directory\\";
-const int ARRAY_SIZE = 19;
+const int CAPACITY = 25;
 
 // Create output file stream object
 // fout to print to file
@@ -22,11 +22,11 @@ ofstream fout;
 // Function prototypes to notify compiler
 // Use fin reference param 
 // Note: variable names not needed for array in prototype
-void readFile(ifstream& fin, string []);
-void simulateVotes(int []);
-void getPoints(const int [], double []);
-void printResults(const string candidates[],
-	const int votes[], const double points[]);
+void readFile(ifstream& fin, string [], int& size);
+void simulateVotes(int [], int size);
+void getPoints(const int [], double [], int size);
+void printResults(const string [],
+	const int [], const double [], int size);
 
 int main()
 {	// Seed random number generator using current time
@@ -35,11 +35,12 @@ int main()
 	// Dynamic Variable Initialization
 	string inFilePath = DIRECTORY + "Candidates.txt";
 	string outFilePath = DIRECTORY + "ElectionResults.txt";
+	int size = CAPACITY;
 
-	// Declare array objects of size 19 (number of candidates)
-	string candidates[ARRAY_SIZE];
-	int votes[ARRAY_SIZE];
-	double points[ARRAY_SIZE];
+	// Declare array objects of capcity 25 (max number of candidates)
+	string candidates[CAPACITY];
+	int votes[CAPACITY];
+	double points[CAPACITY];
 
 	// Create input file stream object
 	ifstream fin;
@@ -72,12 +73,12 @@ int main()
 		<< AUTHOR_LINE << endl << endl;
 
 	// Call functions, using fin/3 arrays as parameters
-	readFile(fin, candidates);
-	simulateVotes(votes);
-	getPoints(votes, points);
+	readFile(fin, candidates, size);
+	simulateVotes(votes, size);
+	getPoints(votes, points, size);
 
 	// Print results to console and output file
-	printResults(candidates, votes, points);
+	printResults(candidates, votes, points, size);
 
 	// Close the file stream objects and exit program
 	fin.close();
@@ -85,20 +86,26 @@ int main()
 	return 0;
 }
 // Reads the input file and fills the candidates array
-void readFile(ifstream& fin, string candidates[])
+void readFile(ifstream& fin, string candidates[], int& size)
 {
 	string candidate;
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	int arraySize = 0;
+	for (int i = 0; i < size; i++)
 	{
-		fin >> candidate;
-		candidates[i] = candidate;
+		while (fin >> candidate)
+		{
+			candidates[i] = candidate;
+			arraySize++;
+			break;
+		}
 	}
+	size = arraySize;
 }
 // Simulates random vote number 1500-25000 per candidate,
 // fills the votes array located in main
-void simulateVotes(int votes[]) {
+void simulateVotes(int votes[], int size) {
 	int randomNumber;
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{	// 1500-25000 
 		// (23501 possibilities  0-23500 + 1500 = 1500-25000)
 		randomNumber = rand() % 23501 + 1500;
@@ -106,30 +113,30 @@ void simulateVotes(int votes[]) {
 	}
 }
 // Fills points array using read-only const int array
-void getPoints(const int votes[], double points[])
+void getPoints(const int votes[], double points[], int size)
 {	// Points represent vote percentage as a double
 	double point;
 	int voteTotal = 0;
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{	// Find sum of all votes
 		voteTotal += votes[i];
 	}
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{	// Calculate points percentage
 		points[i] = 100.0 * votes[i] / voteTotal;
 	}
 }
 // Prints the read-only results to console and output file
 void printResults(const string candidates[], 
-	const int votes[], const double points[])
+	const int votes[], const double points[], int size)
 {
-	int winningVotes, winnerIndex;
+	int winningVotes = 0, winnerIndex = 0;
 	cout << left << setw(10) << "Candidate"
 		<< right << setw(7) << "Votes" << " "
 		<< right << setw(12) << "Percentage" << endl
 		<< setw(30) << setfill('-') << "-" 
 		<< setfill(' ') << endl;
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{
 		cout << left << setw(10) << candidates[i]
 			<< right << setw(7) << votes[i]
@@ -151,7 +158,7 @@ void printResults(const string candidates[],
 		<< right << setw(12) << "Percentage" << endl
 		<< setw(30) << setfill('-') << "-"
 		<< setfill(' ') << endl;
-	for (int i = 0; i < ARRAY_SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{
 		if (i == 0) winningVotes = votes[i];
 		else
@@ -162,13 +169,18 @@ void printResults(const string candidates[],
 				<< right << setw(12) << points[i] << "%" << endl;
 		}
 	}
-	cout << endl << "The simulated election winner is " << candidates[winnerIndex]
-		<< ", with " << winningVotes << " votes." << endl;
-	fout << endl << "The simulated election winner is " << candidates[winnerIndex]
-		<< ", with " << winningVotes << " votes." << endl;
+	cout << endl << "The simulated election winner is " 
+		<< candidates[winnerIndex]
+		<< ", with " << winningVotes << " votes (" 
+		<< points[winnerIndex] << "%)." << endl;
+	fout << endl << "The simulated election winner is " 
+		<< candidates[winnerIndex]
+		<< ", with " << winningVotes << " votes (" 
+		<< points[winnerIndex] << "%)." << endl;
 }
 /*
 * CONSOLE/ELECTION_RESULTS.TXT OUTPUT
+* 
 * Voting Ballot Array Functions Program
 * By Forrest Moulin
 *
