@@ -105,8 +105,7 @@ void simulateVotes(int votes[]) {
 		votes[i] = randomNumber;
 	}
 }
-// Fills points array using const int array
-// votes (read-only)
+// Fills points array using read-only const int array
 void getPoints(const int votes[], double points[])
 {	// Points represent vote percentage as a double
 	double point;
@@ -120,7 +119,7 @@ void getPoints(const int votes[], double points[])
 		points[i] = 100.0 * votes[i] / voteTotal;
 	}
 }
-// Prints the results to console and output file (read-only)
+// Prints the read-only results to console and output file
 void printResults(const string candidates[], 
 	const int votes[], const double points[])
 {
