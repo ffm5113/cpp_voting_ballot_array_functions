@@ -22,7 +22,6 @@ const int ARRAY_SIZE = 19;
 // cout to print to console
 ofstream fout;
 
-
 // Function prototypes to notify compiler
 // Use fin reference param 
 vector<string> readFile(ifstream& fin, string candidates[]);
