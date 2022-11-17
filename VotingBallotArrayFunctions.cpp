@@ -1,20 +1,17 @@
 // Source(s) of logic assistance:  
 // Gaddis, T. (2018). Starting out with C++:
 // From control structures through objects. Pearson. 
-// // Converting vectors to arrays
-// https://www.geeksforgeeks.org/diiferent-ways-to-convert-vector-to-array-in-cpp-stl/
 
 #include <iostream> // To use cin/cout
 #include <iomanip>  // To access setw, setprecision for output width
 #include <fstream>  // To utilize ifstream, ofstream, fstream
 #include <ctime>    // To access random number generator
-#include <vector>   // To use vector (dynamically sized form of array)
 using namespace std;
 
 // Global Constant Initialization
 const string TITLE = "Voting Ballot Array Functions Program";
 const string AUTHOR_LINE = "By Forrest Moulin";
-const string DIRECTORY = "C:\\Users\\Username\\Path\\To\\Directory"
+const string DIRECTORY = "C:\\Users\\Username\\Path\\To\\Directory\\";
 const int ARRAY_SIZE = 19;
 
 // Create output file stream object
@@ -24,15 +21,15 @@ ofstream fout;
 
 // Function prototypes to notify compiler
 // Use fin reference param 
-vector<string> readFile(ifstream& fin, string candidates[]);
-vector<int> simulateVotes(int votes[]);
-vector<double> getPoints(int votes[], double points[]);
-void printResults(string candidates[], 
-	int votes[], double points[]);
+// Note: variable names not needed for array in prototype
+void readFile(ifstream& fin, string []);
+void simulateVotes(int []);
+void getPoints(const int [], double []);
+void printResults(const string candidates[],
+	const int votes[], const double points[]);
 
 int main()
-{
-	// Seed random number generator using current time
+{	// Seed random number generator using current time
 	srand(time(NULL));
 
 	// Dynamic Variable Initialization
@@ -43,11 +40,6 @@ int main()
 	string candidates[ARRAY_SIZE];
 	int votes[ARRAY_SIZE];
 	double points[ARRAY_SIZE];
-
-	// Declare vector objects used to copy array
-	vector<string> candidatesCopy;
-	vector<int> votesCopy;
-	vector<double> pointsCopy;
 
 	// Create input file stream object
 	ifstream fin;
@@ -79,15 +71,10 @@ int main()
 	fout << fixed << setprecision(2) << TITLE << endl
 		<< AUTHOR_LINE << endl << endl;
 
-	// Call functions & copy returned vectors to array containers
-	candidatesCopy = readFile(fin, candidates);
-	copy(candidatesCopy.begin(), candidatesCopy.end(), candidates);
-	
-	votesCopy = simulateVotes(votes);
-	copy(votesCopy.begin(), votesCopy.end(), votes);
-
-	pointsCopy = getPoints(votes, points);
-	copy(pointsCopy.begin(), pointsCopy.end(), points);
+	// Call functions, using fin/3 arrays as parameters
+	readFile(fin, candidates);
+	simulateVotes(votes);
+	getPoints(votes, points);
 
 	// Print results to console and output file
 	printResults(candidates, votes, points);
@@ -97,54 +84,45 @@ int main()
 	fout.close();
 	return 0;
 }
-// Returns vector of strings used to fill array in main
-vector<string> readFile(ifstream& fin, string candidates[])
+// Reads the input file and fills the candidates array
+void readFile(ifstream& fin, string candidates[])
 {
 	string candidate;
-	vector<string> candidatesCopy;
-	
-	// Read all candidates in the input file stream
 	for (int i = 0; i < ARRAY_SIZE; i++)
 	{
 		fin >> candidate;
 		candidates[i] = candidate;
-		candidatesCopy.push_back(candidate);
 	}
-	return candidatesCopy;
 }
-// Returns vector of ints used to fill array in main
-vector<int> simulateVotes(int votes[]) {
+// Simulates random vote number 1500-25000 per candidate,
+// fills the votes array located in main
+void simulateVotes(int votes[]) {
 	int randomNumber;
-	vector<int> votesCopy;
-
 	for (int i = 0; i < ARRAY_SIZE; i++)
 	{	// 1500-25000 
 		// (23501 possibilities  0-23500 + 1500 = 1500-25000)
 		randomNumber = rand() % 23501 + 1500;
 		votes[i] = randomNumber;
-		votesCopy.push_back(randomNumber);
 	}
-	return votesCopy;
 }
-// Returns vector of doubles used to fill array in main
-vector<double> getPoints(int votes[], double points[])
+// Fills points array using const int array
+// votes (read-only)
+void getPoints(const int votes[], double points[])
 {	// Points represent vote percentage as a double
 	double point;
 	int voteTotal = 0;
-	vector<double> pointsCopy;
-
 	for (int i = 0; i < ARRAY_SIZE; i++)
-	{
+	{	// Find sum of all votes
 		voteTotal += votes[i];
 	}
 	for (int i = 0; i < ARRAY_SIZE; i++)
-	{
+	{	// Calculate points percentage
 		points[i] = 100.0 * votes[i] / voteTotal;
-		pointsCopy.push_back(100.0 * votes[i] / voteTotal);
 	}
-	return pointsCopy;
 }
-void printResults(string candidates[], int votes[], double points[])
+// Prints the results to console and output file (read-only)
+void printResults(const string candidates[], 
+	const int votes[], const double points[])
 {
 	int winningVotes, winnerIndex;
 	cout << left << setw(10) << "Candidate"
