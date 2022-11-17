@@ -14,7 +14,7 @@ using namespace std;
 // Global Constant Initialization
 const string TITLE = "Voting Ballot Array Functions Program";
 const string AUTHOR_LINE = "By Forrest Moulin";
-const string DIRECTORY = "C:\\Users\\Forrest\\OneDrive\\Desktop\\";
+const string DIRECTORY = "C:\\Users\\Username\\Path\\To\\Directory"
 const int ARRAY_SIZE = 19;
 
 // Create output file stream object
@@ -36,8 +36,8 @@ int main()
 	srand(time(NULL));
 
 	// Dynamic Variable Initialization
-	string inFilePath = DIRECTORY + "11.20Candidates.txt";
-	string outFilePath = DIRECTORY + "11.20ElectionResults.txt";
+	string inFilePath = DIRECTORY + "Candidates.txt";
+	string outFilePath = DIRECTORY + "ElectionResults.txt";
 
 	// Declare array objects of size 19 (number of candidates)
 	string candidates[ARRAY_SIZE];
