@@ -175,25 +175,25 @@ void printResults(const string candidates[],
 *
 * Candidate   Votes   Percentage
 * ------------------------------
-* Rubio        1524        0.81%
-* Bush        13309        7.06%
-* Christie     3332        1.77%
-* Paul        19383       10.28%
-* O'Malley     6330        3.36%
-* Cruz         8975        4.76%
-* Clinton     18918       10.03%
-* Trump        6718        3.56%
-* Kasich       7485        3.97%
-* Sanders     23926       12.69%
-* Carson       7401        3.92%
-* Gilmore     14748        7.82%
-* Fiorina     11983        6.35%
-* Santorum     6149        3.26%
-* Huckabee    16869        8.95%
-* Graham       5101        2.70%
-* Jindal       4732        2.51%
-* Walker       5051        2.68%
-* Perry        6648        3.53%
+* Rubio       16180        7.29%
+* Bush        17661        7.95%
+* Christie     3705        1.67%
+* Paul        12207        5.50%
+* O'Malley     6223        2.80%
+* Cruz         2954        1.33%
+* Clinton      4930        2.22%
+* Trump        9077        4.09%
+* Kasich      13787        6.21%
+* Sanders     22054        9.93%
+* Carson       8225        3.70%
+* Gilmore     15821        7.13%
+* Fiorina     18681        8.41%
+* Santorum    13772        6.20%
+* Huckabee     9841        4.43%
+* Graham       3720        1.68%
+* Jindal       7021        3.16%
+* Walker      14525        6.54%
+* Perry       21649        9.75%
 *
-* The simulated election winner is Sanders, with 23926 votes.
+* The simulated election winner is Sanders, with 22054 votes (9.93%).
 */
